@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lexneoapps.concerttickets.R
 import com.lexneoapps.concerttickets.databinding.FragmentAdminBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateEditFragment : Fragment(R.layout.fragment_create_edit) {
 
 
