@@ -6,13 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <TextView
+        android:id="@+id/concert_tickets_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Concert tickets"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/hour_glass_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/concert_tickets_tv"
+        app:layout_constraintStart_toStartOf="@id/concert_tickets_tv"
+        app:layout_constraintEnd_toEndOf="@id/concert_tickets_tv"
+        android:src="@drawable/ic_twotone_hourglass_bottom_24"
+        android:contentDescription="Hour glass icon"
+        android:layout_marginTop="16dp"
+
+
+        />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
