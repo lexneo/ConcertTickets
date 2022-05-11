@@ -1,5 +1,6 @@
 package com.lexneoapps.concerttickets.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.lexneoapps.concerttickets.data.local.models.Discounted
 
@@ -19,5 +20,10 @@ interface DiscountedDao {
     suspend fun deleteAllDiscounted()
 
     @Query("SELECT * FROM discounted_table ORDER BY date ASC")
-    suspend fun getAllDiscountedOrderedByDate() : List<Discounted>
+     fun getAllDiscountedOrderedByDate() : LiveData<List<Discounted>>
+
+    @Query("SELECT * FROM discounted_table ORDER BY date ASC")
+    suspend fun getAllDiscountedOrderedByUpcoming() : List<Discounted>
+
+
 }

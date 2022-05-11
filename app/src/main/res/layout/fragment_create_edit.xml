@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:contentDescription="@string/image_of_performer_text"
@@ -112,6 +113,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@id/save_btn"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -131,6 +133,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_button"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -140,11 +143,13 @@
             android:layout_gravity="end"/>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/discount_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:visibility="invisible"
             app:cardCornerRadius="20dp">
 
             <LinearLayout
@@ -153,41 +158,41 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:helperText="required*"
-                    app:helperTextTextColor="@color/red"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:hint="@string/name_text">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/discount_value_text"
+                    app:helperText="required*"
+                    app:helperTextTextColor="@color/red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/discount_value_input_edit_text"
-                        android:inputType="textPersonName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:lines="1"/>
+                        android:inputType="textPersonName"
+                        android:lines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:helperText="required*"
-                    app:helperTextTextColor="@color/red"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:hint="@string/name_text">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/discount_quantity_text"
+                    app:helperText="required*"
+                    app:helperTextTextColor="@color/red">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/discount_quantity_input_edit_text"
-                        android:inputType="textPersonName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:lines="1"/>
+                        android:inputType="textPersonName"
+                        android:lines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 

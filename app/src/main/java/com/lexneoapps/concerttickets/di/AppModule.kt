@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
 import com.lexneoapps.concerttickets.data.local.AppDatabase
+import com.lexneoapps.concerttickets.data.local.models.Converters
 import com.lexneoapps.concerttickets.data.remote.ConcertTicketsApi
 import com.lexneoapps.concerttickets.utils.Constants.APP_DATABASE_NAME
 import com.lexneoapps.concerttickets.utils.Constants.BASE_URL
@@ -12,8 +13,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -25,7 +29,9 @@ object AppModule {
     fun provideDatabase(
         @ApplicationContext app: Context
     ) = Room.databaseBuilder(app, AppDatabase::class.java, APP_DATABASE_NAME)
-        .fallbackToDestructiveMigration().build()
+        .fallbackToDestructiveMigration().
+        build()
+
 
 
     @Provides
@@ -44,5 +50,12 @@ object AppModule {
             .create(ConcertTicketsApi::class.java)
     }
 
-
+    @ApplicationScope
+    @Provides
+    @Singleton
+    fun provideApplicationScope() = CoroutineScope(SupervisorJob())
 }
+
+@Retention(AnnotationRetention.RUNTIME)
+@Qualifier
+annotation class ApplicationScope

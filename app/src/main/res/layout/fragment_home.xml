@@ -69,7 +69,8 @@
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="May" />
+                    tools:text="May"
+                    android:text="May" />
 
                 <TextView
                     android:id="@+id/upcoming_cv_date_textview_1"
@@ -82,7 +83,8 @@
                     app:layout_constraintEnd_toEndOf="@id/upcoming_cv_month_textview_1"
                     app:layout_constraintStart_toStartOf="@id/upcoming_cv_month_textview_1"
                     app:layout_constraintTop_toBottomOf="@id/upcoming_cv_month_textview_1"
-                    tools:text="18" />
+                    tools:text="18"
+                    android:text="18"/>
 
                 <TextView
                     android:id="@+id/upcoming_cv_year_textview_1"
@@ -95,7 +97,8 @@
                     app:layout_constraintEnd_toEndOf="@id/upcoming_cv_date_textview_1"
                     app:layout_constraintStart_toStartOf="@id/upcoming_cv_date_textview_1"
                     app:layout_constraintTop_toBottomOf="@id/upcoming_cv_date_textview_1"
-                    tools:text="2022" />
+                    tools:text="2022"
+                    android:text="2022"/>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
@@ -115,6 +118,7 @@
                         android:layout_height="match_parent">
 
                         <ImageView
+                            android:id="@+id/upcoming_image_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="centerCrop"
@@ -132,6 +136,8 @@
                             android:background="@drawable/round_shape"
                             android:padding="8dp"
                             android:textSize="16sp"
+                            android:textColor="@color/white"
+
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Hans Zimmer" />
@@ -144,6 +150,7 @@
                             android:layout_marginTop="8dp"
                             android:textSize="16sp"
                             android:textStyle="bold"
+                            android:textColor="@color/white"
                             app:layout_constraintBottom_toTopOf="@id/city_tv"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/performer_name_tv"
@@ -156,6 +163,8 @@
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
                             android:textStyle="bold"
+                            android:textColor="@color/white"
+
                             app:layout_constraintBottom_toTopOf="@id/tickets_left_tv"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/time_tv"
@@ -168,12 +177,15 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginBottom="4dp"
                             android:textSize="16sp"
+                            android:textColor="@color/white"
+
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/city_tv"
                             tools:text="20 tickets more" />
 
                         <TextView
+                            android:id="@+id/discount_percentage_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -220,11 +232,12 @@
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="May" />
+                    tools:text="May"
+                    android:text="May"/>
 
                 <TextView
                     android:id="@+id/upcoming_cv_date_textview_2"
-
+                    android:text="18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -246,7 +259,8 @@
                     app:layout_constraintEnd_toEndOf="@id/upcoming_cv_date_textview_2"
                     app:layout_constraintStart_toStartOf="@id/upcoming_cv_date_textview_2"
                     app:layout_constraintTop_toBottomOf="@id/upcoming_cv_date_textview_2"
-                    tools:text="2022" />
+                    tools:text="2022"
+                    android:text="2022"/>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
@@ -266,6 +280,7 @@
                         android:layout_height="match_parent">
 
                         <ImageView
+                            android:id="@+id/upcoming_image_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="centerCrop"
@@ -295,6 +310,8 @@
                             android:layout_marginTop="8dp"
                             android:textSize="16sp"
                             android:textStyle="bold"
+                            android:textColor="@color/white"
+
                             app:layout_constraintBottom_toTopOf="@id/city_tv_2"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/performer_name_tv_2"
@@ -307,6 +324,8 @@
                             android:layout_marginStart="8dp"
                             android:textSize="16sp"
                             android:textStyle="bold"
+                            android:textColor="@color/white"
+
                             app:layout_constraintBottom_toTopOf="@id/tickets_left_tv_2"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/time_tv_2"
@@ -319,12 +338,15 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginBottom="4dp"
                             android:textSize="16sp"
+                            android:textColor="@color/white"
+
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/city_tv_2"
                             tools:text="20 tickets more" />
 
                         <TextView
+                            android:id="@+id/discount_percentage_tv_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -360,6 +382,7 @@
             app:layout_constraintTop_toBottomOf="@id/expired_tv" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/adming_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabCustomSize="48dp"
@@ -367,6 +390,7 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/navigate_to_admin_page_text"
             android:src="@drawable/ic_baseline_person_add_alt_1_24"
+            app:layout_constraintTop_toBottomOf="@id/expired_recycler_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

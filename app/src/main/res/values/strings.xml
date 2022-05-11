@@ -19,5 +19,8 @@
     <string name="price_text">Price</string>
     <string name="time_text">Time</string>
     <string name="save_text">Save</string>
+    <string name="discount_value_text">Discount value</string>
+    <string name="discount_quantity_text">Discount quantity</string>
+    <string name="reset_text">Reset</string>
 
 </resources>

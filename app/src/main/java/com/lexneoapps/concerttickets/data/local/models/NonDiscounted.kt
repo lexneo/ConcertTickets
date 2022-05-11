@@ -4,6 +4,8 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+import java.time.LocalDate
+import kotlin.math.roundToInt
 
 @Entity(tableName = "non_discounted_table")
 @Parcelize
@@ -17,4 +19,8 @@ data class NonDiscounted(
     val place: String?,
     val price: Double?,
     val quantity: Int?
-) : Parcelable
+) : Parcelable{
+
+
+
+}
