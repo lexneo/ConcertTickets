@@ -36,7 +36,8 @@ class CreateEditFragment : Fragment(R.layout.fragment_create_edit) {
 // onDestroyView.
     private val binding get() = _binding!!
 
-    private val viewModel: CreateEditViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val viewModel: CreateEditViewModel by viewModels()
     private val args: CreateEditFragmentArgs by navArgs()
     private var discounted: Discounted? = null
     private var nonDiscounted: NonDiscounted? = null
@@ -169,7 +170,7 @@ class CreateEditFragment : Fragment(R.layout.fragment_create_edit) {
             }
         }
 
-        viewModel.time.observe(viewLifecycleOwner) {
+        sharedViewModel.time.observe(viewLifecycleOwner) {
             binding.timeEditText.setText(it)
         }
 

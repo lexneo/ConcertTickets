@@ -43,9 +43,7 @@ class CreateEditViewModel @Inject constructor(
     val finished: LiveData<Boolean>
         get() = _finished
 
-    private val _time: MutableLiveData<String> = MutableLiveData()
-    val time: LiveData<String>
-        get() = _time
+
 
 
     fun getTicketsById(id: Int) {
@@ -202,25 +200,7 @@ class CreateEditViewModel @Inject constructor(
 
     }
 
-    fun setTime(chosenDate: String) {
-            _time.value = formatDate(chosenDate)
 
-    }
-    private fun formatDate(dateString: String): String {
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val inputFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-            val localDate = LocalDate.parse(dateString, inputFormatter)
-            val outputFormatter = DateTimeFormatter.ISO_DATE_TIME
-            val localDateTime = localDate.atStartOfDay()
-            outputFormatter.format(localDateTime)
-
-        } else {
-            val parser = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-            formatter.format(parser.parse(dateString)!!)
-        }
-    }
 }
 
 
