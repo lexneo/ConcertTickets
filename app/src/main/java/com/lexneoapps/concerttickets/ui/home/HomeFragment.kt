@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -90,6 +91,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Log.i(TAG, "setUpObservers: $it")
             if (it.size >= 2) {
                 setUpUpcoming(it)
+            }
+        }
+        viewModel.errorLoading.observe(viewLifecycleOwner){
+            if (it){
+                Toast.makeText(requireContext(), "Error loading data from internet.\nCheck your internet connection"
+                    , Toast.LENGTH_SHORT).show()
             }
         }
     }

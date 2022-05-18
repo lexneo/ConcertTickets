@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -42,6 +43,10 @@ class HomeViewModel @Inject constructor(
     val nonDiscounted2Tickets = repository.get2NonDiscounteds(getTodayIsoDate())
     val expiredDiscounted = repository.getAllDiscountedExpired(getTodayIsoDate())
 
+    private val _errorLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val errorLoading: LiveData<Boolean>
+        get() = _errorLoading
+
     //if is first opening of the app - download tickets from api
     fun getTicketsFromApiIfNeeded() {
         applicationScope.launch {
@@ -55,46 +60,55 @@ class HomeViewModel @Inject constructor(
     private suspend fun getAllTicketsAndInsertItToDatabase() {
         applicationScope.launch {
             Log.i(TAG, "getAllTicketsAndInsertItToDatabase: adding to database")
-            val allTickets = repository.getAllTickets()
-            for (ticket in allTickets) {
-                if (ticket.type == "DISCOUNT") {
 
-                    launch {
-                        ticket.payload.apply {
-                            val discounted = Discounted(
-                                this.name,
-                                formatDate(this.date),
-                                this.description,
-                                this.photo,
-                                this.place,
-                                this.price,
-                                this.quantity,
-                                this.discount,
-                                this.id
-                            )
-                            repository.insertDiscountedTicket(discounted)
+            try {
+
+                val allTickets = repository.getAllTickets()
+                for (ticket in allTickets) {
+                    if (ticket.type == "DISCOUNT") {
+
+                        launch {
+                            ticket.payload.apply {
+                                val discounted = Discounted(
+                                    this.name,
+                                    formatDate(this.date),
+                                    this.description,
+                                    this.photo,
+                                    this.place,
+                                    this.price,
+                                    this.quantity,
+                                    this.discount,
+                                    this.id
+                                )
+                                repository.insertDiscountedTicket(discounted)
+                            }
                         }
-                    }
-                } else {
-                    launch {
-                        ticket.payload.apply {
-                            val nonDiscounted = NonDiscounted(
-                                this.name,
-                                formatDate(this.date),
-                                this.description,
-                                this.photo,
-                                this.place,
-                                this.price,
-                                this.quantity,
-                                this.id
-                            )
-                            repository.insertNonDiscountedTicket(nonDiscounted)
+                    } else {
+                        launch {
+                            ticket.payload.apply {
+                                val nonDiscounted = NonDiscounted(
+                                    this.name,
+                                    formatDate(this.date),
+                                    this.description,
+                                    this.photo,
+                                    this.place,
+                                    this.price,
+                                    this.quantity,
+                                    this.id
+                                )
+                                repository.insertNonDiscountedTicket(nonDiscounted)
+                            }
                         }
                     }
                 }
+                setIsFirstOpen(false)
+
+            }catch (e : Exception){
+                withContext(Dispatchers.Main){
+                    _errorLoading.value = true
+                }
             }
         }
-        setIsFirstOpen(false)
     }
 
     private fun formatDate(dateString: String): String {
