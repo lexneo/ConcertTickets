@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             try {
                 delay(3000)
-                Toast.makeText(this@MainActivity, "Finished", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@MainActivity, HomeActivity::class.java)
                 startActivity(intent)
                 finish()

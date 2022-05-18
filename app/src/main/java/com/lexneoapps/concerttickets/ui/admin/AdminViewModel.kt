@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lexneoapps.concerttickets.data.local.NonDiscountedDao
 import com.lexneoapps.concerttickets.data.local.PreferencesManager
 import com.lexneoapps.concerttickets.data.local.models.Discounted
 import com.lexneoapps.concerttickets.data.local.models.NonDiscounted
@@ -12,8 +11,6 @@ import com.lexneoapps.concerttickets.di.ApplicationScope
 import com.lexneoapps.concerttickets.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,6 +21,7 @@ class AdminViewModel @Inject constructor(
     @ApplicationScope private val applicationScope: CoroutineScope
 
 ) : ViewModel() {
+
 
     val discountedTickets = repository.getAllDiscounted()
     val nonDiscountedTickets = repository.getAllNonDiscounted()
@@ -36,32 +34,47 @@ class AdminViewModel @Inject constructor(
     val nonDiscounted: LiveData<NonDiscounted?>
         get() = _nonDiscounted
 
-    fun setDiscounted(discounted: Discounted){
+    private val _finishedRestartingDB = MutableLiveData(false)
+    val finishedRestartingDB: LiveData<Boolean>
+        get() = _finishedRestartingDB
+
+    fun setFinishedRestartingDB(boolean: Boolean){
+        _finishedRestartingDB.value = boolean
+    }
+
+
+
+    fun setDiscounted(discounted: Discounted) {
         _discounted.value = discounted
         _nonDiscounted.value = null
     }
 
-    fun setNonDiscounted(nonDiscounted: NonDiscounted){
+    fun setNonDiscounted(nonDiscounted: NonDiscounted) {
         _nonDiscounted.value = nonDiscounted
         _discounted.value = null
     }
 
     fun onConfirmClick() = viewModelScope.launch {
-        if (_discounted.value != null){
+        if (_discounted.value != null) {
             discounted.value?.let { repository.deleteDiscounted(it) }
-        }else{
+        } else {
             nonDiscounted.value?.let { repository.deleteNonDiscounted(it) }
         }
     }
 
 
     //bonus 1
-    fun resetEverything(){
+    fun resetEverything() {
         applicationScope.launch {
             preferencesManager.isFirstOpen(true)
             repository.deleteAllTickets()
-            delay(500)
+           _finishedRestartingDB.postValue(true)
         }
     }
+
+
+
+
+
 
 }

@@ -20,12 +20,11 @@ class ForYouAdapter() :
             binding.apply {
                 Glide.with(this.root).load(BASE_URL_IMAGE+discounted.photo).into(image)
                 cityNameTv.text = discounted.place
-                dateTv.text = discounted.date
+                dateTv.text = discounted.dateShort
                 ticketsLeftTv.text = "only ${discounted.quantity} left for ${discounted.price}"
                 performerNameTv.text = discounted.name
             }
         }
-
     }
 
 

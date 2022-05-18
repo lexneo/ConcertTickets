@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.internal.bind.util.ISO8601Utils
 import com.lexneoapps.concerttickets.data.local.PreferencesManager
 import com.lexneoapps.concerttickets.data.local.models.Discounted
 import com.lexneoapps.concerttickets.data.local.models.NonDiscounted
@@ -17,12 +18,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 
+private const val COMMON_TAG = "Combined"
 private const val TAG = "HomeViewModel"
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: Repository,
@@ -31,105 +38,104 @@ class HomeViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-
-
     val discountedTickets = repository.getAllDiscounted()
-/*//    val nonDiscountedTickets = repository.getAllNonDiscounted()
-var discountedUpcoming : List<Discounted> = mutableListOf()
-
-
-    private val _finishedInserting: MutableLiveData<Boolean> = MutableLiveData(false)
-    val finishedInserting: LiveData<Boolean>
-        get() = _finishedInserting
-
-    private val _upcoming: MutableLiveData<List<Discounted>> = MutableLiveData()
-    val upcoming: LiveData<List<Discounted>>
-        get() = _upcoming*/
-
-
-
-
+    val nonDiscounted2Tickets = repository.get2NonDiscounteds(getTodayIsoDate())
+    val expiredDiscounted = repository.getAllDiscountedExpired(getTodayIsoDate())
 
     //if is first opening of the app - download tickets from api
-    fun getTicketsFromApiIfNeeded(){
+    fun getTicketsFromApiIfNeeded() {
         applicationScope.launch {
-            if (isFirstOpen()){
+            if (isFirstOpen()) {
                 Log.i(TAG, "getTicketsFromApiIfNeeded: is called")
                 getAllTicketsAndInsertItToDatabase()
-//                _upcoming.value = repository.getAllDiscountedUpcoming()
-
             }
         }
-//        _finishedInserting.value = true
     }
 
-
-
-
-
-
-
-
     private suspend fun getAllTicketsAndInsertItToDatabase() {
-
-        Log.i(TAG, "getAllTicketsAndInsertItToDatabase: adding to database")
+        applicationScope.launch {
+            Log.i(TAG, "getAllTicketsAndInsertItToDatabase: adding to database")
             val allTickets = repository.getAllTickets()
             for (ticket in allTickets) {
                 if (ticket.type == "DISCOUNT") {
-                    ticket.payload.apply {
-                        val discounted = Discounted(
-                            this.id,
-                            this.date,
-                            this.description,
-                            this.discount,
-                            this.name,
-                            this.photo,
-                            this.place,
-                            this.price,
-                            this.quantity
-                        )
-                        repository.insertDiscountedTicket(discounted)
-                    }
-                }else{
-                    ticket.payload.apply {
-                        val nonDiscounted = NonDiscounted(
-                            this.id,
-                            this.date,
-                            this.description,
-                            this.name,
-                            this.photo,
-                            this.place,
-                            this.price,
-                            this.quantity
-                        )
-                        repository.insertNonDiscountedTicket(nonDiscounted)
-                        /*
-                        * idea for date
-                        * LocalDate.parse(this.date, DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        */
 
+                    launch {
+                        ticket.payload.apply {
+                            val discounted = Discounted(
+                                this.name,
+                                formatDate(this.date),
+                                this.description,
+                                this.photo,
+                                this.place,
+                                this.price,
+                                this.quantity,
+                                this.discount,
+                                this.id
+                            )
+                            repository.insertDiscountedTicket(discounted)
+                        }
+                    }
+                } else {
+                    launch {
+                        ticket.payload.apply {
+                            val nonDiscounted = NonDiscounted(
+                                this.name,
+                                formatDate(this.date),
+                                this.description,
+                                this.photo,
+                                this.place,
+                                this.price,
+                                this.quantity,
+                                this.id
+                            )
+                            repository.insertNonDiscountedTicket(nonDiscounted)
+                        }
                     }
                 }
             }
-
-
-            setIsFirstOpen(false)
         }
+        setIsFirstOpen(false)
+    }
 
+    private fun formatDate(dateString: String): String {
 
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val inputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            val localDate = LocalDate.parse(dateString, inputFormatter)
+            val outputFormatter = DateTimeFormatter.ISO_DATE_TIME
+            val localDateTime = localDate.atStartOfDay()
+            outputFormatter.format(localDateTime)
 
+        } else {
+            val parser = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            formatter.format(parser.parse(dateString)!!)
+        }
+    }
 
+    private fun getTodayIsoDate(): String {
+
+        val todayDate = Calendar.getInstance().time
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val inputFormatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy")
+            val localDate = LocalDate.parse(todayDate.toString(), inputFormatter)
+            val outputFormatter = DateTimeFormatter.ISO_DATE_TIME
+            val localDateTime = localDate.atStartOfDay()
+            outputFormatter.format(localDateTime)
+        } else {
+            val parser = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.getDefault())
+            val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            return formatter.format(parser.parse(todayDate.toString())!!)
+        }
+    }
 
 
     private suspend fun isFirstOpen() = preferencesManager.firstOpen.first()
 
     private fun setIsFirstOpen(isFirstOpen: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-          preferencesManager.isFirstOpen(isFirstOpen)
+            preferencesManager.isFirstOpen(isFirstOpen)
         }
     }
-
-
-
-
 }

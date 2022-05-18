@@ -1,9 +1,11 @@
 package com.lexneoapps.concerttickets.ui.admin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -16,17 +18,16 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 private const val TAG = "AdminFragment"
+
 @AndroidEntryPoint
 class AdminFragment : Fragment(R.layout.fragment_admin) {
-
-
 
 
     private var _binding: FragmentAdminBinding? = null
 
     private val viewModel: AdminViewModel by activityViewModels()
 
-    private lateinit var nonDiscountAdapter : AdminNonDiscountAdapter
+    private lateinit var nonDiscountAdapter: AdminNonDiscountAdapter
     private lateinit var discountAdapter: AdminDiscountAdapter
 
 
@@ -46,6 +47,7 @@ class AdminFragment : Fragment(R.layout.fragment_admin) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setFinishedRestartingDB(false)
         setupRecyclerView()
         setUpObservers()
         setUpVisibility()
@@ -53,13 +55,13 @@ class AdminFragment : Fragment(R.layout.fragment_admin) {
 
     }
 
-    private fun setUpListeners(){
+    private fun setUpListeners() {
         binding.addFab.setOnClickListener {
-            val action = AdminFragmentDirections.actionAdminFragmentToCreateEditFragment(null,null)
+            val action = AdminFragmentDirections.actionAdminFragmentToCreateEditFragment(it.id,"Create")
             findNavController().navigate(action)
         }
         discountAdapter.setOnEditClickListener {
-            val action = AdminFragmentDirections.actionAdminFragmentToCreateEditFragment(it,null)
+            val action = AdminFragmentDirections.actionAdminFragmentToCreateEditFragment(it.id,"Edit")
             findNavController().navigate(action)
         }
         discountAdapter.setOnDeleteClickListener {
@@ -68,7 +70,7 @@ class AdminFragment : Fragment(R.layout.fragment_admin) {
             findNavController().navigate(action)
         }
         nonDiscountAdapter.setOnEditClickListener {
-            val action = AdminFragmentDirections.actionAdminFragmentToCreateEditFragment(null,it)
+            val action = AdminFragmentDirections.actionAdminFragmentToCreateEditFragment(it.id,"Edit")
             findNavController().navigate(action)
         }
         nonDiscountAdapter.setOnDeleteClickListener {
@@ -78,50 +80,60 @@ class AdminFragment : Fragment(R.layout.fragment_admin) {
         }
         binding.resetButton.setOnClickListener {
             viewModel.resetEverything()
-//            val action = AdminFragmentDirections.actionAdminFragmentToHomeFragment()
-            findNavController().navigateUp()
         }
     }
 
-    private fun setUpObservers(){
-        viewModel.discountedTickets.observe(viewLifecycleOwner){
+    private fun setUpObservers() {
+        viewModel.discountedTickets.observe(viewLifecycleOwner) {
             discountAdapter.submitList(it)
         }
-        viewModel.nonDiscountedTickets.observe(viewLifecycleOwner){
+        viewModel.nonDiscountedTickets.observe(viewLifecycleOwner) {
             nonDiscountAdapter.submitList(it)
         }
+
+        viewModel.finishedRestartingDB.observe(viewLifecycleOwner) {
+            Log.i(TAG, "finishedRestartingDB $it")
+            if (it) {
+                Toast.makeText(requireContext(), "Database has been restarted!", Toast.LENGTH_SHORT).show()
+                val action = AdminFragmentDirections.actionAdminFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
+        }
+
     }
 
-    private fun setUpVisibility(){
-        binding.toggleButtonGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-            if (isChecked){
-                when(checkedId){
-                    R.id.button1 -> {
-                        binding.discountRv.visibility = View.GONE
-                        binding.nonDiscountRv.visibility = View.VISIBLE
-                    }
-                    R.id.button2 ->{
-                        binding.discountRv.visibility = View.VISIBLE
-                        binding.nonDiscountRv.visibility = View.GONE
-                    }
+
+
+private fun setUpVisibility() {
+    binding.toggleButtonGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+        if (isChecked) {
+            when (checkedId) {
+                R.id.button1 -> {
+                    binding.discountRv.visibility = View.GONE
+                    binding.nonDiscountRv.visibility = View.VISIBLE
+                }
+                R.id.button2 -> {
+                    binding.discountRv.visibility = View.VISIBLE
+                    binding.nonDiscountRv.visibility = View.GONE
                 }
             }
         }
     }
+}
 
-    private fun setupRecyclerView() {
-        nonDiscountAdapter = AdminNonDiscountAdapter()
-        binding.nonDiscountRv.apply {
-            adapter = nonDiscountAdapter
-            layoutManager = LinearLayoutManager(activity)
+private fun setupRecyclerView() {
+    nonDiscountAdapter = AdminNonDiscountAdapter()
+    binding.nonDiscountRv.apply {
+        adapter = nonDiscountAdapter
+        layoutManager = LinearLayoutManager(activity)
 
-        }
-
-        discountAdapter = AdminDiscountAdapter()
-        binding.discountRv.apply {
-            adapter = discountAdapter
-            layoutManager = LinearLayoutManager(activity)
-
-        }
     }
+
+    discountAdapter = AdminDiscountAdapter()
+    binding.discountRv.apply {
+        adapter = discountAdapter
+        layoutManager = LinearLayoutManager(activity)
+
+    }
+}
 }

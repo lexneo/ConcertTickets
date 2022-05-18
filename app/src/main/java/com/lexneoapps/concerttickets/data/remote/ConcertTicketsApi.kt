@@ -8,8 +8,7 @@ interface ConcertTicketsApi {
     @GET("concerts.json")
     suspend fun getConcertTickets() : List<NetworkResponse>
 
-    @GET("concerts.json/d")
-    suspend fun getConcertTicketsDiscounted() : List<NetworkResponse>
+
 
 
 }

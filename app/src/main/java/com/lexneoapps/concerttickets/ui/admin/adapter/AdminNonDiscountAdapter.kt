@@ -20,7 +20,10 @@ class AdminNonDiscountAdapter() :
             binding.apply {
                 Glide.with(this.root).load(Constants.BASE_URL_IMAGE +nonDiscounted.photo).into(image)
                 cityTv.text = nonDiscounted.place
-                timeTv.text = nonDiscounted.date
+                timeTv.text = nonDiscounted.time
+                upcomingCvDateTextview1.text = nonDiscounted.day
+                upcomingCvMonthTextview1.text = nonDiscounted.month
+                upcomingCvYearTextview1.text = nonDiscounted.year
                 ticketsLeftTv.text = "only ${nonDiscounted.quantity} left for ${nonDiscounted.price}"
                 discountDifferenceTv.text = nonDiscounted.price.toString()
                 performerNameTv.text = nonDiscounted.name

@@ -2,8 +2,6 @@ package com.lexneoapps.concerttickets.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.lexneoapps.concerttickets.data.local.models.Converters
 import com.lexneoapps.concerttickets.data.local.models.Discounted
 import com.lexneoapps.concerttickets.data.local.models.NonDiscounted
 

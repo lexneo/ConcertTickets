@@ -22,5 +22,10 @@
     <string name="discount_value_text">Discount value</string>
     <string name="discount_quantity_text">Discount quantity</string>
     <string name="reset_text">Reset</string>
+    <string name="admin_fragment_label">Admin</string>
+    <string name="detail_fragment_label">Details</string>
+    <string name="home_fragment_label">Concert tickets</string>
+
+
 
 </resources>

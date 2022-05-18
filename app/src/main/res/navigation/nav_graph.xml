@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.lexneoapps.concerttickets.ui.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="@string/home_fragment_label"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_adminFragment"
             app:destination="@id/adminFragment" />
@@ -20,8 +20,8 @@
     <fragment
         android:id="@+id/adminFragment"
         android:name="com.lexneoapps.concerttickets.ui.admin.AdminFragment"
-        android:label="fragment_admin"
-        tools:layout="@layout/fragment_admin" >
+        android:label="@string/admin_fragment_label"
+        tools:layout="@layout/fragment_admin">
         <action
             android:id="@+id/action_adminFragment_to_createEditFragment"
             app:destination="@id/createEditFragment" />
@@ -36,8 +36,23 @@
     <fragment
         android:id="@+id/createEditFragment"
         android:name="com.lexneoapps.concerttickets.ui.createedit.CreateEditFragment"
-        android:label="fragment_create_edit"
-        tools:layout="@layout/fragment_create_edit" >
+        android:label="{title}"
+        tools:layout="@layout/fragment_create_edit">
+        <action
+            android:id="@+id/action_createEditFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.lexneoapps.concerttickets.ui.detail.DetailFragment"
+        android:label="@string/detail_fragment_label"
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="discounted"
             app:argType="com.lexneoapps.concerttickets.data.local.models.Discounted"
@@ -46,21 +61,9 @@
             android:name="nonDiscounted"
             app:argType="com.lexneoapps.concerttickets.data.local.models.NonDiscounted"
             app:nullable="true" />
-        <action
-            android:id="@+id/action_createEditFragment_to_adminFragment"
-            app:destination="@id/adminFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.lexneoapps.concerttickets.ui.detail.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
-        <argument
-            android:name="discounted"
-            app:argType="com.lexneoapps.concerttickets.data.local.models.Discounted" />
     </fragment>
     <dialog
         android:id="@+id/deleteFragment"
         android:name="com.lexneoapps.concerttickets.ui.delete.DeleteFragment"
-        android:label="DeleteFragment" />
+        android:label="Delete" />
 </navigation>

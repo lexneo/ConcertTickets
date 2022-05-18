@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
 import com.lexneoapps.concerttickets.data.local.AppDatabase
-import com.lexneoapps.concerttickets.data.local.models.Converters
 import com.lexneoapps.concerttickets.data.remote.ConcertTicketsApi
 import com.lexneoapps.concerttickets.utils.Constants.APP_DATABASE_NAME
 import com.lexneoapps.concerttickets.utils.Constants.BASE_URL

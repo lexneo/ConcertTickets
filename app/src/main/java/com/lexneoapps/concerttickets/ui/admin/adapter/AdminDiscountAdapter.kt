@@ -25,7 +25,10 @@ class AdminDiscountAdapter() :
             binding.apply {
                 Glide.with(this.root).load(Constants.BASE_URL_IMAGE +discounted.photo).into(image)
                 cityTv.text = discounted.place
-                timeTv.text = discounted.date
+                timeTv.text = discounted.time
+                upcomingCvDateTextview1.text = discounted.day
+                upcomingCvMonthTextview1.text = discounted.month
+                upcomingCvYearTextview1.text = discounted.year
                 ticketsLeftTv.text = "only ${discounted.quantity} left for ${discounted.price}"
                 discountPercentageTv.text = "-${discounted.percentage}%"
                 discountDifferenceTv.text = discounted.discountDifference.toString()

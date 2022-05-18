@@ -87,7 +87,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/time_edit_text"
-                android:inputType="text"
+                android:inputType="datetime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:lines="1"/>
@@ -113,7 +113,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@id/save_btn"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -172,7 +171,7 @@
                         android:id="@+id/discount_value_input_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:lines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -191,7 +190,7 @@
                         android:id="@+id/discount_quantity_input_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:lines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -200,12 +199,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <Button
+            android:id="@+id/create_edit_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/save_text"/>
+            android:text="@string/edit_text"/>
 
 
 

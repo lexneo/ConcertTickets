@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lexneoapps.concerttickets.data.local.models.Discounted
 import com.lexneoapps.concerttickets.databinding.ExpiredItemBinding
 import com.lexneoapps.concerttickets.utils.Constants.BASE_URL_IMAGE
@@ -13,14 +14,13 @@ import com.lexneoapps.concerttickets.utils.Constants.BASE_URL_IMAGE
 class ExpiredAdapter() :
     ListAdapter<Discounted, ExpiredAdapter.MyViewHolder>(ExpiredCallBack()) {
 
-    class MyViewHolder(val binding: ExpiredItemBinding) : RecyclerView.ViewHolder(binding.root){
+    class MyViewHolder(val binding: ExpiredItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(discounted: Discounted) {
             binding.apply {
                 Glide.with(this.root).load(BASE_URL_IMAGE+discounted.photo).into(image)
                 cityNameTv.text = discounted.place
                 performerNameTv.text = discounted.name
-//                val percentage = 100*(discounted.price -discounted.discount)/ discounted.price)
                 discountPercentageTv.text = "-${discounted.percentage}%"
             }
         }
@@ -53,6 +53,7 @@ class ExpiredAdapter() :
         this.onItemClickListener = onItemClick
     }
 }
+
 private class ExpiredCallBack : DiffUtil.ItemCallback<Discounted>() {
     override fun areItemsTheSame(oldItem: Discounted, newItem: Discounted): Boolean {
         return oldItem.id == newItem.id

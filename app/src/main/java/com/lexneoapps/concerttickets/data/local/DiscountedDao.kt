@@ -22,8 +22,11 @@ interface DiscountedDao {
     @Query("SELECT * FROM discounted_table ORDER BY date ASC")
      fun getAllDiscountedOrderedByDate() : LiveData<List<Discounted>>
 
-    @Query("SELECT * FROM discounted_table ORDER BY date ASC")
-    suspend fun getAllDiscountedOrderedByUpcoming() : List<Discounted>
+    @Query("SELECT * FROM discounted_table WHERE id =:id")
+    suspend fun getDiscountedById(id: Int) : Discounted?
+
+    @Query("SELECT * FROM discounted_table WHERE date <=:dateToday ORDER BY date ASC")
+     fun getAllDiscountedExpired(dateToday : String) : LiveData<List<Discounted>>
 
 
 }

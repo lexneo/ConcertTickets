@@ -71,7 +71,7 @@
                         android:id="@+id/date_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/tickets_left_tv"
                         app:layout_constraintEnd_toEndOf="parent"

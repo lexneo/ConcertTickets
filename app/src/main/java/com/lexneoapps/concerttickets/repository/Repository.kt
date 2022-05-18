@@ -52,17 +52,34 @@ class Repository @Inject constructor(
      fun getAllDiscounted() : LiveData<List<Discounted>> =
         discountedDao.getAllDiscountedOrderedByDate()
 
-    suspend fun getAllDiscountedUpcoming() : List<Discounted> =
-        discountedDao.getAllDiscountedOrderedByUpcoming()
+    suspend fun getDiscountedById(id: Int) =
+        discountedDao.getDiscountedById(id)
+
+    suspend fun getNonDiscountedById(id: Int) =
+        nonDiscountedDao.getNonDiscountedById(id)
+
 
     fun getAllNonDiscounted() : LiveData<List<NonDiscounted>> =
         nonDiscountedDao.getAllNonDiscountedOrderedByDate()
+
+    fun getAllDiscountedExpired(dateString: String) : LiveData<List<Discounted>> =
+        discountedDao.getAllDiscountedExpired(dateString)
+
+
+     fun get2NonDiscounteds(dateString: String) : LiveData<List<NonDiscounted>> =
+        nonDiscountedDao.get2NonDiscountedOrderedByUpcomings(dateString)
 
     suspend fun deleteDiscounted(discounted: Discounted) =
         discountedDao.deleteDiscounted(discounted)
 
     suspend fun deleteNonDiscounted(nonDiscounted: NonDiscounted) =
         nonDiscountedDao.deleteNonDiscounted(nonDiscounted)
+
+    suspend fun updateDiscounted(discounted: Discounted) =
+        discountedDao.updateDiscounted(discounted)
+
+    suspend fun updateNonDiscounted(nonDiscounted: NonDiscounted) =
+        nonDiscountedDao.updateNonDiscounted(nonDiscounted)
 
 
 }
