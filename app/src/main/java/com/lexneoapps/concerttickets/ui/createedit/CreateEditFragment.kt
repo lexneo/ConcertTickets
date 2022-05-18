@@ -105,7 +105,7 @@ class CreateEditFragment : Fragment(R.layout.fragment_create_edit) {
                 placeEditText.setText(discounted?.place)
                 timeEditText.setText(discounted?.date)
                 priceEditText.setText(discounted?.price.toString())
-                quantityEditText.setText(discounted?.quantity.toString())
+                quantityEditText.setText("0")
             }
         } else if (discounted == null && nonDiscounted != null) {
             totalTickets = nonDiscounted!!.quantity!!
